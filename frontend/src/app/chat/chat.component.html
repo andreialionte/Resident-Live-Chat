@@ -1,0 +1,39 @@
+<div class="chat-root">
+  <header class="chat-header">
+    <h1>Resident Live Chat</h1>
+  </header>
+
+  <section class="chat-card">
+    <div class="messages" role="log" aria-live="polite">
+      <div *ngFor="let m of messages" class="message">
+        <div class="meta">
+          <strong>{{ m.username }}</strong>
+          <span class="time">{{ m.timestamp | date:'shortTime' }}</span>
+        </div>
+        <div class="text">{{ m.message }}</div>
+      </div>
+      <div *ngIf="messages.length === 0" class="empty">Niciun mesaj încă — scrie primul!</div>
+    </div>
+
+    <form class="composer" (ngSubmit)="send()" autocomplete="off">
+      <input
+        class="username"
+        name="username"
+        [(ngModel)]="username"
+        placeholder="Username (ex: Andrei)"
+        maxlength="20"
+      />
+
+      <input
+        class="message-input"
+        name="message"
+        [(ngModel)]="message"
+        placeholder="Scrie un mesaj..."
+        required
+        (keydown.enter)="send()"
+      />
+
+      <button type="submit" class="send">Trimite</button>
+    </form>
+  </section>
+</div>
