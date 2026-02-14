@@ -1,11 +1,17 @@
 # Backend - Resident Live Chat
 
-Server Node.js cu Express și Socket.io pentru chat live.
+Server TypeScript cu Express și Socket.io pentru chat live.
 
 ## Instalare
 
 ```bash
 npm install
+```
+
+## Build
+
+```bash
+npm run build
 ```
 
 ## Pornire server
@@ -14,13 +20,13 @@ npm install
 npm start
 ```
 
-## Pornire server în modul development (cu nodemon)
+## Development (cu ts-node-dev)
 
 ```bash
 npm run dev
 ```
 
-## Endpoints Socket.io
+## Socket.io Events
 
 - `send-message` - Trimite un mesaj
 - `user-connected` - Notifică conectarea unui utilizator

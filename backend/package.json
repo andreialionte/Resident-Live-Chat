@@ -2,12 +2,13 @@
   "name": "resident-chat-backend",
   "version": "1.0.0",
   "description": "Backend server pentru Resident Live Chat",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn src/server.ts"
   },
-  "keywords": ["chat", "socket.io", "express"],
+  "keywords": ["chat", "socket.io", "express", "typescript"],
   "author": "Andrei",
   "license": "MIT",
   "dependencies": {
@@ -16,6 +17,10 @@
     "cors": "^2.8.5"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "@types/express": "^4.17.17",
+    "@types/cors": "^2.8.13",
+    "@types/node": "^20.5.0",
+    "typescript": "^5.1.6",
+    "ts-node-dev": "^2.0.0"
   }
 }
