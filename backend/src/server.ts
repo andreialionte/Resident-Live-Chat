@@ -20,21 +20,42 @@ const connectedUsers = new Map<string, string>();
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  socket.on('send-message', (data: { username: string; message: string }) => {
-    console.log('Message received:', data);
+  socket.on('send-message', (data: { username?: string; message?: string }) => {
+    if (!data || !data.username || !data.username.trim()) {
+      socket.emit('invalid-username', { reason: 'missing' });
+      return;
+    }
+    const stored = connectedUsers.get(socket.id);
+    if (!stored) {
+      socket.emit('not-connected', { reason: 'user-not-registered' });
+      return;
+    }
+    if (stored !== data.username) {
+      socket.emit('username-mismatch', { expected: stored });
+      return;
+    }
+    if (!data.message || !data.message.trim()) return;
+
     io.emit('new-message', {
-      username: data.username,
-      message: data.message,
+      username: data.username.trim(),
+      message: data.message.trim(),
       timestamp: new Date().toISOString()
     });
   });
 
   socket.on('user-connected', (username: string) => {
-    connectedUsers.set(socket.id, username);
-    console.log(`${username} connected`);
+    if (!username || !username.trim()) {
+      socket.emit('invalid-username', { reason: 'missing' });
+      return;
+    }
+    if (connectedUsers.has(socket.id)) {
+      return;
+    }
+    connectedUsers.set(socket.id, username.trim());
+    console.log(`${username.trim()} connected`);
     
     socket.broadcast.emit('user-joined', {
-      username: username,
+      username: username.trim(),
       timestamp: new Date().toISOString()
     });
   });
